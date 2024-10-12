@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -20,18 +21,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: CAuth.streamAuthStatus,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            return GetMaterialApp(
-              title: 'Mobile II IF 22 C',
-              initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
-              getPages: AppPages.routes,
-            );
-          }
+    return StreamBuilder<User?>(
+      stream: CAuth.streamAuthStatus,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          return GetMaterialApp(
+            title: 'Mobile II IF 22 C',
+            initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
+            getPages: AppPages.routes,
+          );
+        }
 
-          return Text("nanti di sini kita buat proses loading");
-        });
+        return Loading();
+      },
+    );
+  }
+}
+
+class Loading extends StatelessWidget {
+  const Loading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 }
