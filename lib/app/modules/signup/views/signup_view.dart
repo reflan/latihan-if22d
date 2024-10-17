@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import 'package:myapp/app/controllers/auth_controller.dart';
 import 'package:myapp/app/routes/app_pages.dart';
 
-import '../controllers/login_controller.dart';
+import '../controllers/signup_controller.dart';
 
-class LoginView extends GetView<LoginController> {
+class SignupView extends GetView<SignupController> {
   final cAuth = Get.find<AuthController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,11 +21,21 @@ class LoginView extends GetView<LoginController> {
                   height: 50,
                 ),
                 // Menambahkan logo
-                Image.network(
-                  'https://logospng.org/download/android/logo-android-4096.png', // Ganti dengan path gambar logo kamu
-                  height: 150, // Atur ukuran logo sesuai kebutuhan
+                // Image.network(
+                //   'https://logospng.org/download/android/logo-android-4096.png', // Ganti dengan path gambar logo kamu
+                //   height: 150, // Atur ukuran logo sesuai kebutuhan
+                // ),
+                Container(
+                  child: Text(
+                    "SIGNUP SCREEN",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                SizedBox(height: 20), // Jarak antara logo dan form
+                SizedBox(height: 20),
+                // Jarak antara logo dan form
               ],
             ),
             TextField(
@@ -47,37 +56,12 @@ class LoginView extends GetView<LoginController> {
             ),
             ElevatedButton(
               onPressed: () {
-                cAuth.login(
+                cAuth.signup(
                   controller.cEmail.text,
                   controller.cPass.text,
                 );
               },
-              child: Text("Login"),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {},
-                child: Text("Reset Password"),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Belum Punya Akun ?"),
-                TextButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.SIGNUP);
-                  },
-                  child: Text("Daftar Disini"),
-                )
-              ],
+              child: Text("Signup"),
             ),
           ],
         ),
