@@ -33,6 +33,10 @@ class AuthController extends GetxController {
     }
   }
 
-  void logout() {}
+  void logout() {
+    auth.signOut();
+    Get.offAllNamed(Routes.LOGIN);
+  }
+
   void resetPassword() {}
 }
