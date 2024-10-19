@@ -40,7 +40,14 @@ class AuthController extends GetxController {
         email: email,
         password: pass,
       );
-      Get.offAllNamed(Routes.HOME);
+      if (credential.user!.emailVerified) {
+        Get.offAllNamed(Routes.HOME);
+      } else {
+        Get.defaultDialog(
+          title: "Peringatan !!",
+          middleText: "Harap Melakukan Verifikasi email terlebih dahulu",
+        );
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -63,5 +70,28 @@ class AuthController extends GetxController {
     Get.offAllNamed(Routes.LOGIN);
   }
 
-  void resetPassword() {}
+  void resetPassword(String email) async {
+    if (email != "" && GetUtils.isEmail(email)) {
+      try {
+        await auth.sendPasswordResetEmail(email: email);
+        Get.defaultDialog(
+          title: "Berhasil",
+          middleText: "Kami telah mengirimkan reset password ke $email",
+          onConfirm: () {
+            Get.back();
+            Get.back();
+          },
+          textConfirm: "OK",
+        );
+      } catch (e) {
+        Get.defaultDialog(
+            title: "Terjadi kesalahan",
+            middleText: "Tidak dapat melakukan reset password.");
+      }
+    } else {
+      Get.defaultDialog(
+          title: "Terjadi kesalahan", middleText: "Email tidak valid");
+    }
+  }
+
 }
