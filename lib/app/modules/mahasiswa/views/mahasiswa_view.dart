@@ -3,11 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
+import 'package:myapp/app/modules/mahasiswa/views/mahasiswa_update_view.dart';
 
 import '../controllers/mahasiswa_controller.dart';
 
 class MahasiswaView extends GetView<MahasiswaController> {
-  const MahasiswaView({super.key});
+  void ShowOption(id) async {
+    var result = await Get.dialog(
+      SimpleDialog(
+        children: [
+          ListTile(
+            onTap: () {
+              Get.back();
+              Get.to(
+                MahasiswaUpdateView(),
+                arguments: id,
+              );
+            },
+            title: Text("Update"),
+          ),
+          ListTile(
+            onTap: () {},
+            title: Text("Delete"),
+          ),
+          ListTile(
+            onTap: () {
+              Get.back();
+            },
+            title: Text("Close"),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Object?>>(
@@ -29,7 +59,9 @@ class MahasiswaView extends GetView<MahasiswaController> {
                     subtitle: Text(
                         "${(listAllDocs[index].data() as Map<String, dynamic>)["npm"]}"),
                     trailing: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ShowOption(listAllDocs[index].id);
+                      },
                       icon: Icon(Icons.more_vert),
                     ),
                   ),
