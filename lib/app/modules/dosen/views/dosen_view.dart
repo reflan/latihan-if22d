@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
-import 'package:myapp/app/modules/mahasiswa/views/mahasiswa_update_view.dart';
+import 'package:myapp/app/modules/dosen/views/dosen_update_view.dart';
 
-import '../controllers/mahasiswa_controller.dart';
+import '../controllers/dosen_controller.dart';
 
-class MahasiswaView extends GetView<MahasiswaController> {
+class DosenView extends GetView<DosenController> {
   void ShowOption(id) async {
     var result = await Get.dialog(
       SimpleDialog(
@@ -16,7 +16,7 @@ class MahasiswaView extends GetView<MahasiswaController> {
             onTap: () {
               Get.back();
               Get.to(
-                MahasiswaUpdateView(),
+                DosenUpdateView(),
                 arguments: id,
               );
             },
@@ -24,8 +24,8 @@ class MahasiswaView extends GetView<MahasiswaController> {
           ),
           ListTile(
             onTap: () {
-              Get.back();
-              controller.delete(id);
+              // Get.back();
+              // controller.delete(id);
             },
             title: Text("Delete"),
           ),
@@ -44,7 +44,7 @@ class MahasiswaView extends GetView<MahasiswaController> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Object?>>(
-      stream: Get.put(MahasiswaController()).StreamData(),
+      stream: Get.put(DosenController()).StreamData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           // ambil data dari firebase
@@ -60,7 +60,7 @@ class MahasiswaView extends GetView<MahasiswaController> {
                     title: Text(
                         "${(listAllDocs[index].data() as Map<String, dynamic>)["nama"]}"),
                     subtitle: Text(
-                        "${(listAllDocs[index].data() as Map<String, dynamic>)["npm"]}"),
+                        "${(listAllDocs[index].data() as Map<String, dynamic>)["nidn"]}"),
                     trailing: IconButton(
                       onPressed: () {
                         ShowOption(listAllDocs[index].id);

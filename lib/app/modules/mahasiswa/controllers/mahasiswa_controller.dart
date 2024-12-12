@@ -88,6 +88,34 @@ class MahasiswaController extends GetxController {
     }
   }
 
+  void delete(String id) {
+    DocumentReference docRef = firestore.collection("mahasiswa").doc(id);
+
+    try {
+      Get.defaultDialog(
+        title: "Info",
+        middleText: "Apakah anda yakin menghapus data ini ?",
+        onConfirm: () {
+          docRef.delete();
+          Get.back();
+          Get.defaultDialog(
+            title: "Sukses",
+            middleText: "Berhasil menghapus data",
+          );
+        },
+        textConfirm: "Ya",
+        textCancel: "Batal",
+      );
+    } catch (e) {
+      print(e);
+      Get.defaultDialog(
+        title: "Terjadi kesalahan",
+        middleText: "Tidak berhasil menghapus data",
+      );
+    }
+  }
+
+
   @override
   void onInit() {
     // TODO: implement onInit
